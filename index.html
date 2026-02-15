@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Surprise Me</title>
+    <title>Surprise Me</title>`r`n    <meta name="theme-color" content="#1f3bff" />`r`n    <link rel="manifest" href="./manifest.webmanifest" />`r`n    <link rel="icon" href="./icon.svg" type="image/svg+xml" />
     <style>
       :root {
         --font-sans: "Avenir Next", "Segoe UI Variable", "Segoe UI", Helvetica, Arial, sans-serif;
@@ -374,7 +374,8 @@
         localStorage.setItem("theme", darkNow ? "dark" : "light");
       });
 
-      loadOneSurprise();
+      loadOneSurprise();`r`n`r`n      if ("serviceWorker" in navigator) {`r`n        window.addEventListener("load", () => {`r`n          navigator.serviceWorker.register("./service-worker.js").catch(() => {});`r`n        });`r`n      }
     </script>
   </body>
 </html>
+
