@@ -3,7 +3,10 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Surprise Me</title>`r`n    <meta name="theme-color" content="#1f3bff" />`r`n    <link rel="manifest" href="./manifest.webmanifest" />`r`n    <link rel="icon" href="./icon.svg" type="image/svg+xml" />
+    <title>Surprise Me</title>
+    <meta name="theme-color" content="#1f3bff" />
+    <link rel="manifest" href="./manifest.webmanifest" />
+    <link rel="icon" href="./icon.svg" type="image/svg+xml" />
     <style>
       :root {
         --font-sans: "Avenir Next", "Segoe UI Variable", "Segoe UI", Helvetica, Arial, sans-serif;
@@ -303,9 +306,7 @@
 
       async function fetchJoke() {
         const res = await fetch("https://v2.jokeapi.dev/joke/Any?safe-mode");
-        if (!res.ok) {
-          throw new Error("Joke API unavailable");
-        }
+        if (!res.ok) throw new Error("Joke API unavailable");
         const data = await res.json();
         const text = data.type === "single" ? data.joke : data.setup + " " + data.delivery;
         return { type: "Joke", text, meta: "Source: JokeAPI" };
@@ -313,9 +314,7 @@
 
       async function fetchFact() {
         const res = await fetch("https://en.wikipedia.org/api/rest_v1/page/random/summary");
-        if (!res.ok) {
-          throw new Error("Fact API unavailable");
-        }
+        if (!res.ok) throw new Error("Fact API unavailable");
         const data = await res.json();
         const text = data.extract || "No fact available right now.";
         const url = data.content_urls && data.content_urls.desktop ? data.content_urls.desktop.page : "https://en.wikipedia.org";
@@ -329,9 +328,7 @@
 
       async function fetchTrivia() {
         const res = await fetch("https://uselessfacts.jsph.pl/api/v2/facts/random?language=en");
-        if (!res.ok) {
-          throw new Error("Trivia API unavailable");
-        }
+        if (!res.ok) throw new Error("Trivia API unavailable");
         const data = await res.json();
         return {
           type: "Trivia",
@@ -374,8 +371,13 @@
         localStorage.setItem("theme", darkNow ? "dark" : "light");
       });
 
-      loadOneSurprise();`r`n`r`n      if ("serviceWorker" in navigator) {`r`n        window.addEventListener("load", () => {`r`n          navigator.serviceWorker.register("./service-worker.js").catch(() => {});`r`n        });`r`n      }
+      loadOneSurprise();
+
+      if ("serviceWorker" in navigator) {
+        window.addEventListener("load", () => {
+          navigator.serviceWorker.register("./service-worker.js").catch(() => {});
+        });
+      }
     </script>
   </body>
 </html>
-
