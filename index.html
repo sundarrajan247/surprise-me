@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Surprise Me</title>
     <meta name="theme-color" content="#1f3bff" />
-    <link rel="manifest" href="./manifest.webmanifest" />
+    <link rel="manifest" href="/surprise-me/manifest.json" />
     <link rel="icon" href="./icon.svg" type="image/svg+xml" />
     <style>
       :root {
@@ -375,9 +375,11 @@
 
       if ("serviceWorker" in navigator) {
         window.addEventListener("load", () => {
-          navigator.serviceWorker.register("./service-worker.js").catch(() => {});
+          navigator.serviceWorker.register("/surprise-me/service-worker.js").catch(() => {});
         });
       }
     </script>
   </body>
 </html>
+
+
