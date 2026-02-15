@@ -1,0 +1,380 @@
+﻿<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Surprise Me</title>
+    <style>
+      :root {
+        --font-sans: "Avenir Next", "Segoe UI Variable", "Segoe UI", Helvetica, Arial, sans-serif;
+        --text: #0f2238;
+        --muted: #54647c;
+        --glass: rgba(255, 255, 255, 0.74);
+        --glass-border: rgba(255, 255, 255, 0.62);
+        --shadow: 0 36px 90px rgba(17, 31, 55, 0.28);
+        --bg: radial-gradient(circle at 15% 15%, #fef3c7 0%, #dbeafe 50%, #e0e7ff 100%);
+        --cta: linear-gradient(135deg, #1f3bff 0%, #1f9eff 100%);
+        --cta-text: #f8fbff;
+        --chip-bg: rgba(255, 255, 255, 0.64);
+        --chip-text: #13335b;
+        --panel: rgba(255, 255, 255, 0.56);
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        min-height: 100vh;
+        padding: clamp(16px, 3vw, 38px);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-family: var(--font-sans);
+        color: var(--text);
+        background: var(--bg);
+        overflow: hidden;
+        position: relative;
+      }
+
+      body::before,
+      body::after {
+        content: "";
+        position: fixed;
+        border-radius: 999px;
+        pointer-events: none;
+      }
+
+      body::before {
+        width: 54vmax;
+        height: 54vmax;
+        top: -20vmax;
+        right: -16vmax;
+        background: radial-gradient(circle at 30% 30%, rgba(56, 189, 248, 0.55), rgba(56, 189, 248, 0));
+        animation: floatA 16s ease-in-out infinite;
+      }
+
+      body::after {
+        width: 58vmax;
+        height: 58vmax;
+        left: -20vmax;
+        bottom: -22vmax;
+        background: radial-gradient(circle at 30% 30%, rgba(59, 130, 246, 0.35), rgba(59, 130, 246, 0));
+        animation: floatB 18s ease-in-out infinite;
+      }
+
+      body.dark {
+        --text: #e8f1ff;
+        --muted: #9eb0cb;
+        --glass: rgba(11, 20, 35, 0.72);
+        --glass-border: rgba(128, 158, 206, 0.24);
+        --shadow: 0 38px 95px rgba(0, 0, 0, 0.58);
+        --bg: radial-gradient(circle at 15% 12%, #324579 0%, #0c1426 46%, #070b16 100%);
+        --cta: linear-gradient(135deg, #3b82f6 0%, #06b6d4 100%);
+        --cta-text: #f4f9ff;
+        --chip-bg: rgba(22, 37, 62, 0.74);
+        --chip-text: #c8dbfb;
+        --panel: rgba(13, 24, 42, 0.58);
+      }
+
+      .card {
+        width: min(780px, 100%);
+        border-radius: 30px;
+        padding: clamp(22px, 2.8vw, 34px);
+        background: var(--glass);
+        border: 1px solid var(--glass-border);
+        box-shadow: var(--shadow);
+        backdrop-filter: blur(18px);
+        position: relative;
+        animation: entrance 560ms cubic-bezier(0.2, 0.85, 0.32, 1);
+      }
+
+      .row {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 10px;
+        margin-bottom: 14px;
+      }
+
+      .chip {
+        margin: 0;
+        padding: 7px 12px;
+        border-radius: 999px;
+        background: var(--chip-bg);
+        color: var(--chip-text);
+        font-size: 0.73rem;
+        font-weight: 700;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+      }
+
+      .theme-btn {
+        border: 1px solid rgba(122, 149, 193, 0.3);
+        background: rgba(255, 255, 255, 0.55);
+        color: var(--text);
+        border-radius: 999px;
+        padding: 9px 14px;
+        font-size: 0.82rem;
+        font-weight: 700;
+        cursor: pointer;
+      }
+
+      body.dark .theme-btn {
+        background: rgba(22, 34, 55, 0.64);
+      }
+
+      h1 {
+        margin: 0 0 8px;
+        font-size: clamp(1.75rem, 4.6vw, 3rem);
+        letter-spacing: -0.03em;
+        line-height: 1.03;
+      }
+
+      .sub {
+        margin: 0 0 18px;
+        color: var(--muted);
+        font-size: 0.96rem;
+      }
+
+      .panel {
+        margin: 0;
+        border: 1px solid rgba(140, 172, 216, 0.24);
+        background: var(--panel);
+        border-radius: 18px;
+        padding: clamp(16px, 2.3vw, 24px);
+        min-height: 170px;
+      }
+
+      .type {
+        margin: 0 0 8px;
+        font-size: 0.76rem;
+        text-transform: uppercase;
+        letter-spacing: 0.14em;
+        color: var(--muted);
+        font-weight: 700;
+      }
+
+      .text {
+        margin: 0;
+        font-size: clamp(1.06rem, 3vw, 1.42rem);
+        line-height: 1.58;
+      }
+
+      .meta {
+        margin-top: 12px;
+        font-size: 0.88rem;
+        color: var(--muted);
+      }
+
+      .meta a {
+        color: inherit;
+      }
+
+      .actions {
+        margin-top: 16px;
+        display: flex;
+        gap: 10px;
+        align-items: center;
+      }
+
+      .next {
+        border: 0;
+        background: var(--cta);
+        color: var(--cta-text);
+        border-radius: 14px;
+        padding: 12px 18px;
+        font-size: 0.93rem;
+        font-weight: 700;
+        letter-spacing: 0.01em;
+        cursor: pointer;
+        box-shadow: 0 16px 34px rgba(26, 95, 222, 0.35);
+      }
+
+      .status {
+        margin: 0;
+        color: var(--muted);
+        font-size: 0.84rem;
+      }
+
+      .anim {
+        animation: fadeUp 230ms ease;
+      }
+
+      @keyframes fadeUp {
+        0% {
+          opacity: 0.45;
+          transform: translateY(5px);
+        }
+        100% {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      @keyframes floatA {
+        0%,
+        100% {
+          transform: translate3d(0, 0, 0);
+        }
+        50% {
+          transform: translate3d(-2vw, 1.5vh, 0);
+        }
+      }
+
+      @keyframes floatB {
+        0%,
+        100% {
+          transform: translate3d(0, 0, 0);
+        }
+        50% {
+          transform: translate3d(2vw, -1.5vh, 0);
+        }
+      }
+
+      @keyframes entrance {
+        from {
+          opacity: 0;
+          transform: translateY(14px) scale(0.986);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0) scale(1);
+        }
+      }
+
+      @media (max-width: 560px) {
+        .next {
+          width: 100%;
+        }
+
+        .actions {
+          flex-direction: column;
+          align-items: stretch;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <main class="card">
+      <div class="row">
+        <p class="chip">Single Surprise</p>
+        <button id="themeToggle" class="theme-btn" type="button">Toggle Theme</button>
+      </div>
+
+      <h1>Surprise Me</h1>
+      <p class="sub">One fresh surprise each time. Joke, fact, or trivia.</p>
+
+      <section class="panel">
+        <p id="itemType" class="type">Loading</p>
+        <p id="itemText" class="text">Fetching your surprise...</p>
+        <p id="itemMeta" class="meta"></p>
+      </section>
+
+      <div class="actions">
+        <button id="nextButton" class="next" type="button">Give Me Another</button>
+        <p id="status" class="status"></p>
+      </div>
+    </main>
+
+    <script>
+      const themeToggleEl = document.getElementById("themeToggle");
+      const nextButtonEl = document.getElementById("nextButton");
+      const statusEl = document.getElementById("status");
+      const itemTypeEl = document.getElementById("itemType");
+      const itemTextEl = document.getElementById("itemText");
+      const itemMetaEl = document.getElementById("itemMeta");
+
+      function animate(el) {
+        el.classList.remove("anim");
+        void el.offsetWidth;
+        el.classList.add("anim");
+      }
+
+      function renderItem(item) {
+        itemTypeEl.textContent = item.type;
+        itemTextEl.textContent = item.text;
+        itemMetaEl.textContent = "";
+        itemMetaEl.innerHTML = item.meta || "";
+        animate(itemTypeEl);
+        animate(itemTextEl);
+      }
+
+      async function fetchJoke() {
+        const res = await fetch("https://v2.jokeapi.dev/joke/Any?safe-mode");
+        if (!res.ok) {
+          throw new Error("Joke API unavailable");
+        }
+        const data = await res.json();
+        const text = data.type === "single" ? data.joke : data.setup + " " + data.delivery;
+        return { type: "Joke", text, meta: "Source: JokeAPI" };
+      }
+
+      async function fetchFact() {
+        const res = await fetch("https://en.wikipedia.org/api/rest_v1/page/random/summary");
+        if (!res.ok) {
+          throw new Error("Fact API unavailable");
+        }
+        const data = await res.json();
+        const text = data.extract || "No fact available right now.";
+        const url = data.content_urls && data.content_urls.desktop ? data.content_urls.desktop.page : "https://en.wikipedia.org";
+        const title = data.title || "Wikipedia";
+        return {
+          type: "Fact",
+          text,
+          meta: 'Verify: <a href="' + url + '" target="_blank" rel="noopener noreferrer">' + title + "</a>"
+        };
+      }
+
+      async function fetchTrivia() {
+        const res = await fetch("https://uselessfacts.jsph.pl/api/v2/facts/random?language=en");
+        if (!res.ok) {
+          throw new Error("Trivia API unavailable");
+        }
+        const data = await res.json();
+        return {
+          type: "Trivia",
+          text: data.text || "No trivia available right now.",
+          meta: "Source: Useless Facts API"
+        };
+      }
+
+      async function loadOneSurprise() {
+        nextButtonEl.disabled = true;
+        statusEl.textContent = "Fetching...";
+
+        const sources = [fetchJoke, fetchFact, fetchTrivia];
+        const pick = sources[Math.floor(Math.random() * sources.length)];
+
+        try {
+          const item = await pick();
+          renderItem(item);
+          statusEl.textContent = "Updated";
+        } catch {
+          renderItem({
+            type: "Fact",
+            text: "Honey never spoils. Sealed honey can remain edible for very long periods.",
+            meta: 'Verify: <a href="https://en.wikipedia.org/wiki/Honey" target="_blank" rel="noopener noreferrer">Wikipedia</a>'
+          });
+          statusEl.textContent = "Showing fallback content";
+        }
+
+        nextButtonEl.disabled = false;
+      }
+
+      nextButtonEl.addEventListener("click", loadOneSurprise);
+
+      const storedTheme = localStorage.getItem("theme");
+      const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+      document.body.classList.toggle("dark", storedTheme ? storedTheme === "dark" : prefersDark);
+
+      themeToggleEl.addEventListener("click", () => {
+        const darkNow = document.body.classList.toggle("dark");
+        localStorage.setItem("theme", darkNow ? "dark" : "light");
+      });
+
+      loadOneSurprise();
+    </script>
+  </body>
+</html>
