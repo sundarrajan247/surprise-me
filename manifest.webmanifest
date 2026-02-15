@@ -1,18 +1,26 @@
-{
-    "name":  "Surprise Me",
-    "short_name":  "SurpriseMe",
-    "description":  "One fresh surprise each time: joke, fact, or trivia.",
-    "start_url":  "/surprise-me/",
-    "scope":  "/surprise-me/",
-    "display":  "standalone",
-    "background_color":  "#0b1423",
-    "theme_color":  "#1f3bff",
-    "icons":  [
-                  {
-                      "purpose":  "any maskable",
-                      "type":  "image/svg+xml",
-                      "sizes":  "512x512",
-                      "src":  "/surprise-me/icon.svg"
-                  }
-              ]
+﻿{
+  "name": "Surprise Me",
+  "short_name": "SurpriseMe",
+  "description": "One fresh surprise each time: joke, fact, or trivia.",
+  "id": "/surprise-me/",
+  "start_url": "/surprise-me/",
+  "scope": "/surprise-me/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#0b1423",
+  "theme_color": "#1f3bff",
+  "icons": [
+    {
+      "src": "/surprise-me/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/surprise-me/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
 }
